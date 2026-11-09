@@ -1,0 +1,742 @@
+{
+  "geode": "5.11.2",
+  "gd": {
+    "win": "2.2081"
+    },
+  "version": "v1.17.0",
+  "id": "dd3v.synca",
+  "name": "Synca",
+  "developer": "DD3V",
+  "description": "An input buffer assist for Geometry Dash. Assist tool: do not use it for records or submissions where assists are not allowed.",
+  "settings": {
+    "delay-cube": {
+      "type": "int",
+      "name": "Cube: max delay (ticks)",
+      "description": "How far an early input may be held back in cube. 0 turns the buffer off for this mode. Used by the Custom stage. 4 ticks = 1 frame at 60 fps. Also editable in Synca's Gamemode tab.",
+      "default": 24,
+      "min": 0,
+      "max": 120
+    },
+    "delay-ship": {
+      "type": "int",
+      "name": "Ship: max delay (ticks)",
+      "description": "How far an early input may be held back in ship. Ship has momentum, so small delays are enough and big ones feel laggy. Used by the Custom stage. 4 ticks = 1 frame at 60 fps. Also editable in Synca's Gamemode tab.",
+      "default": 4,
+      "min": 0,
+      "max": 120
+    },
+    "delay-ball": {
+      "type": "int",
+      "name": "Ball: max delay (ticks)",
+      "description": "How far an early input may be held back in ball. 0 turns the buffer off for this mode. Used by the Custom stage. 4 ticks = 1 frame at 60 fps. Also editable in Synca's Gamemode tab.",
+      "default": 24,
+      "min": 0,
+      "max": 120
+    },
+    "delay-ufo": {
+      "type": "int",
+      "name": "UFO: max delay (ticks)",
+      "description": "How far an early input may be held back in UFO. 0 turns the buffer off for this mode. Used by the Custom stage. 4 ticks = 1 frame at 60 fps. Also editable in Synca's Gamemode tab.",
+      "default": 16,
+      "min": 0,
+      "max": 120
+    },
+    "delay-wave": {
+      "type": "int",
+      "name": "Wave: max delay (ticks)",
+      "description": "How far an early input may be held back in wave. 0 turns the buffer off for this mode. Used by the Custom stage. 4 ticks = 1 frame at 60 fps. Also editable in Synca's Gamemode tab.",
+      "default": 12,
+      "min": 0,
+      "max": 120
+    },
+    "delay-robot": {
+      "type": "int",
+      "name": "Robot: max delay (ticks)",
+      "description": "How far an early input may be held back in robot. 0 turns the buffer off for this mode. Used by the Custom stage. 4 ticks = 1 frame at 60 fps. Also editable in Synca's Gamemode tab.",
+      "default": 24,
+      "min": 0,
+      "max": 120
+    },
+    "delay-spider": {
+      "type": "int",
+      "name": "Spider: max delay (ticks)",
+      "description": "How far an early input may be held back in spider. 0 turns the buffer off for this mode. Used by the Custom stage. 4 ticks = 1 frame at 60 fps. Also editable in Synca's Gamemode tab.",
+      "default": 16,
+      "min": 0,
+      "max": 120
+    },
+    "delay-swing": {
+      "type": "int",
+      "name": "Swing: max delay (ticks)",
+      "description": "How far an early input may be held back in swing. 0 turns the buffer off for this mode. Used by the Custom stage. 4 ticks = 1 frame at 60 fps. Also editable in Synca's Gamemode tab.",
+      "default": 16,
+      "min": 0,
+      "max": 120
+    },
+    "sim-budget-ms": {
+      "type": "float",
+      "name": "Prediction time budget (ms)",
+      "description": "Max time spent predicting per click. Higher = finds longer saves on big windows, but may hitch on dense levels.",
+      "default": 8.0,
+      "min": 1.0,
+      "max": 30.0
+    },
+    "smart-prediction": {
+      "type": "bool",
+      "name": "Orb / pad / portal prediction",
+      "description": "Let the ghost use orbs, pads, gravity portals and speed portals. Turn off if you see glitches with objects.",
+      "default": true
+    },
+    "debug-console": {
+      "type": "bool",
+      "name": "Debug console window",
+      "description": "Also open a separate Windows console with the same log as the in-game console (F9). Needs a restart.",
+      "default": false,
+      "platforms": [
+        "windows"
+      ]
+    },
+    "ground-horizon": {
+      "type": "int",
+      "name": "Cube / ball lookahead (ticks)",
+      "description": "How far ahead the prediction looks for cube, ball and spider. A cube jump lasts about 100 ticks, so the old 48 never saw the landing. Higher = catches later hits but costs more time per click.",
+      "default": 130,
+      "min": 48,
+      "max": 240
+    },
+    "wave-horizon": {
+      "type": "int",
+      "name": "Wave lookahead (ticks)",
+      "description": "How far ahead the wave prediction looks (mini wave uses 15 ticks less). 65 = 65 normal / 50 mini. Longer sees crashes further away but costs more time per click.",
+      "default": 65,
+      "min": 20,
+      "max": 160
+    },
+    "orb-assume-hit": {
+      "type": "bool",
+      "name": "Orbs: assume you click them (calculation mode)",
+      "description": "The prediction clicks every orb it touches, as if you hit it on time. Turn off if it predicts deaths for orbs you normally skip.",
+      "default": true
+    },
+    "orb-try-both": {
+      "type": "bool",
+      "name": "Orbs: also try the other choice",
+      "description": "If a prediction touches an orb and dies, run it again with the opposite orb choice (click / skip) and keep the better one, like a player who only clicks the orb when needed.",
+      "default": true
+    },
+    "avoid-moving-objects": {
+      "type": "bool",
+      "name": "Don't buffer near moving objects",
+      "description": "Experimental. The prediction sees the level frozen at your click. If the ghost's path touches spikes or blocks that moved recently (move/rotate triggers), the input goes through untouched instead of being delayed. Can cancel good saves on levels with lots of movement.",
+      "default": false
+    },
+    "wave-auto-release": {
+      "type": "bool",
+      "name": "Wave auto-release",
+      "description": "While you hold in wave, if holding would crash within the Wave release window below and letting go clearly survives, the mod lets go for you. Your own release is then ignored. Practice mode only, unless Auto-release in normal runs is on.",
+      "default": false
+    },
+    "auto-release-window": {
+      "type": "int",
+      "name": "Auto-click: lookahead window (ticks)",
+      "description": "How far ahead the idle auto-click checks for a crash. Wave, robot, and dash auto-release each have their own tick setting below.",
+      "default": 6,
+      "min": 2,
+      "max": 24
+    },
+    "drift-check": {
+      "type": "bool",
+      "name": "Drift check (debug)",
+      "description": "After each input, compare where the prediction said you'd go with where you actually went, and log the biggest gap in the in-game console (F9). Use it to see how precise the predictions are on a level.",
+      "default": false
+    },
+    "wave-spam-gap": {
+      "type": "int",
+      "name": "Wave spam: max gap (ticks)",
+      "description": "Presses/releases closer together than this count as spam. After 'Spam: inputs in a row' of them, wave inputs go straight to the game until you pause. 16 ticks = 4 frames at 60fps (about 7 clicks/sec). Raise it if spam still gets buffered, lower it if tight wave parts stop being buffered.",
+      "default": 16,
+      "min": 4,
+      "max": 40
+    },
+    "wave-spam-streak": {
+      "type": "int",
+      "name": "Spam: inputs in a row",
+      "description": "How many fast presses/releases in a row it takes before spam goes straight to the game (wave, ship, and smart UFO / ball / swing). Lower = spam is let through sooner; higher = more fast inputs are still buffered.",
+      "default": 3,
+      "min": 2,
+      "max": 6
+    },
+    "orb-align": {
+      "type": "bool",
+      "name": "Orb alignment",
+      "description": "If you press a little before reaching an orb (and the press wouldn't hit it), the press is held back until you're inside the orb so it hits. Works for every mode except ship and wave. Needs 'Orb / pad / portal prediction' on.",
+      "default": true
+    },
+    "orb-align-ticks": {
+      "type": "int",
+      "name": "Orb alignment: max delay (ticks)",
+      "description": "How early a press may be and still be moved onto the orb. 16 ticks = 4 frames at 60fps.",
+      "default": 16,
+      "min": 1,
+      "max": 120
+    },
+    "wave-v46": {
+      "type": "bool",
+      "name": "Wave: old v4.6 logic",
+      "description": "Use the old v4.6 wave rules (big-gain bar, 1-tick queued opposite). Off = the cube-style wave: a crash you could still turn away from counts as safe, and the smallest delay that clears the obstacle wins.",
+      "default": false
+    },
+    "wave-safety-margin": {
+      "type": "bool",
+      "name": "Wave: safety margin",
+      "description": "When a wave save is found, use a delay with one tick of room on both sides instead of the one that only just clears the spike, so tiny differences in the real run can't clip it. Can add 1 tick (0.25f) to some saves.",
+      "default": true
+    },
+    "orb-align-ground": {
+      "type": "bool",
+      "name": "Orb alignment: also from the ground",
+      "description": "Off: presses made while standing on the ground are normal jumps and never get moved onto an orb. On: a ground jump made just before an orb can be turned into an orb hit.",
+      "default": false
+    },
+    "full-ghost-state": {
+      "type": "bool",
+      "name": "Full ghost state (v2.8)",
+      "description": "Copy the full player state (slopes, timers, forces, dash...) into the prediction ghost. Turn off to go back to the v2.7 ghost if predictions feel worse.",
+      "default": true
+    },
+    "robot-smart": {
+      "type": "bool",
+      "name": "Robot: smart jumps",
+      "description": "A robot press only counts as a crash if no hold length saves it (your usual hold, then short to long holds). Saves are found for presses that need a different jump height, and presses you can still control aren't delayed.",
+      "default": true
+    },
+    "robot-auto-release": {
+      "type": "bool",
+      "name": "Robot auto-release",
+      "description": "While you hold a robot jump, if holding longer would crash within the Robot release window below and letting go survives, the mod releases for you. Practice mode only, unless Auto-release in normal runs is on.",
+      "default": false
+    },
+    "level-memory": {
+      "type": "bool",
+      "name": "Level memory (learns from your runs)",
+      "description": "Remembers, per level and per spot, which delays worked, where saves ended in deaths and where you keep dying. Delays that worked before are tried first; spots where saves keep failing are left alone; orange dots in the path view mark spots where you die a lot. F11 forgets the current level.",
+      "default": true
+    },
+    "auto-click": {
+      "type": "bool",
+      "name": "Auto-click",
+      "description": "When you're not holding and doing nothing would crash within the auto-release window, but a click right now (with your usual hold) is fully safe, the mod clicks for you. Your own click, if it still comes, is ignored. Cube, ball, UFO, robot, spider and swing (not wave / ship). Practice mode only, unless 'Auto-release in normal runs' is on; then AUTO INPUTS ON shows on screen. Runs with this aren't legit.",
+      "default": false
+    },
+    "predict-through-portals": {
+      "type": "bool",
+      "name": "Predict through portals",
+      "description": "Predictions keep going through mode portals (cube, ship, ball, UFO, wave, robot, spider, swing): the hidden ghost switches mode there instead of the prediction stopping. Dual, solo and teleport portals still stop it. Needs 'Full ghost state' on.",
+      "default": true
+    },
+    "auto-release-normal-runs": {
+      "type": "bool",
+      "name": "Auto-release in normal runs",
+      "description": "Let auto-release (wave / robot / dash) and auto-click also work outside practice mode. While it can act, an 'AUTO INPUTS ON' tag is shown on screen. Never use it for verified or leaderboard runs.",
+      "default": false
+    },
+    "spider-smart": {
+      "type": "bool",
+      "name": "Spider: smart flips",
+      "description": "A spider flip counts as done once you stand on the new surface for 12 ticks, and a crash you could have avoided by flipping back counts as safe. Stops the spider from delaying flips because of obstacles that need your next click.",
+      "default": true
+    },
+    "dash-auto-release": {
+      "type": "bool",
+      "name": "Dash orb auto-release",
+      "description": "While you hold a dash, if holding longer would crash within the Dash release window below and letting go survives, the mod lets go for you. Practice mode only, unless Auto-release in normal runs is on.",
+      "default": false
+    },
+    "perf-log": {
+      "type": "bool",
+      "name": "Performance log (debug)",
+      "description": "After each click, log in the console (F9) how long its predictions took, how many runs and ghost ticks it used, and the cost per ghost tick. Changes nothing about the decisions.",
+      "default": false
+    },
+    "ship-buffer": {
+      "type": "bool",
+      "name": "Ship: buffer inputs",
+      "description": "Buffer ship presses and releases on preset stages. Custom uses the Ship value on the Gamemodes tab. A crash only counts if you couldn't have recovered (the opposite input 8 / 16 / 24 ticks before it is tried); the smallest delay that clears wins. Off = ship is untouched on preset stages.",
+      "default": true
+    },
+    "ship-max-delay": {
+      "type": "int",
+      "name": "Ship: max delay (ticks)",
+      "description": "Ship's own max delay on the preset stages (the Custom stage uses the per-gamemode Ship value). Ship has momentum, so small delays are enough and big ones feel laggy. 4 ticks = 1 frame at 60 fps.",
+      "default": 4,
+      "min": 0,
+      "max": 16
+    },
+    "orb-timing": {
+      "type": "bool",
+      "name": "Orb timing",
+      "description": "For orbs that only work at a specific moment inside them: a press already inside an orb that would crash is moved 1-6 ticks later in the orb if that survives, the orb timing that worked at a spot before is tried first, and predictions also try clicking later orbs 3 and 6 ticks into them.",
+      "default": true
+    },
+    "cube-late-crash": {
+      "type": "int",
+      "name": "Cube: ignore crashes after (ticks)",
+      "description": "If pressing now only crashes after a normal cube / ball jump would have landed, the crash is the next obstacle's, not this click's: no delay can help, so the mod skips the search (saves time and stutter). 90 ticks = about 0.37 s. 0 = always search.",
+      "default": 90,
+      "min": 0,
+      "max": 240
+    },
+    "predict-moving-objects": {
+      "type": "bool",
+      "name": "Predict moving objects (experimental)",
+      "description": "Spikes, saws and blocks near your path that are moving right now (move / rotate triggers) are moved along their current motion during predictions: straight lines, curved / circular paths and spinning, so saves account for where they will be. Easing (speeding up / slowing down) isn't predicted. Turn 'Don't buffer near moving objects' off when using this.",
+      "default": true
+    },
+    "robust-saves": {
+      "type": "bool",
+      "name": "Robust saves",
+      "description": "Before a save is used, it is also tested with you slightly ahead of and behind your real position (about half a tick). Saves that only work at the exact spot are swapped for a nearby delay that survives all three, if there is one. Costs a few extra predictions per save, never per normal click.",
+      "default": true
+    },
+    "ignore-touching-hazards": {
+      "type": "bool",
+      "name": "Ignore hazards you're touching",
+      "description": "Spikes / saws that overlap you at the moment of the click while you're alive can't be what kills you (e.g. a spike the level makes follow the player, or noclip), so predictions ignore them. Fixes predictions that died on their very first tick (GRIEF's wave).",
+      "default": true
+    },
+    "death-log": {
+      "type": "bool",
+      "name": "Death log (debug)",
+      "description": "On every 'no save', log what killed the prediction ghost (object ID, type, where it is relative to you, hitboxes). Ghost deaths in the first 3 ticks are always logged. Use it with F8 when a level predicts badly.",
+      "default": false
+    },
+    "explain-inputs": {
+      "type": "bool",
+      "name": "Explain every input (debug)",
+      "description": "Also log the inputs that were passed straight to the game and why: safe as it is, spam guard, late-crash rule, max delay 0. Busy log; turn on to see what the mod does in a part, then use F8.",
+      "default": false
+    },
+    "cbf-sync": {
+      "type": "bool",
+      "name": "Click Between Frames sync",
+      "description": "With the Click Between Frames mod, a click lands partway through a physics tick. The prediction then starts from that exact moment, and delayed inputs land on the tick the prediction tested. Has no effect without CBF.",
+      "default": true
+    },
+    "low-latency": {
+      "type": "bool",
+      "name": "Low latency mode",
+      "description": "For players who feel the buffer as lag or delayed clicks: clicks made while a delay is waiting are not shifted after it (no chain of delayed clicks), delays are at most 1 frame, searches are capped at 3 ms (no frame hitches), and robust saves / wave margin (which can add a tick) are off.",
+      "default": false
+    },
+    "ufo-smart": {
+      "type": "bool",
+      "name": "UFO: smart flaps",
+      "description": "A UFO crash only counts if one more flap 6 / 12 / 18 ticks before it couldn't have saved you, landing on something counts as safe, the smallest delay that works wins, and fast flapping goes straight through (spam guard). Off = UFO uses the plain rules like before.",
+      "default": true
+    },
+    "more-time-death-spots": {
+      "type": "bool",
+      "name": "More time at spots you keep dying",
+      "description": "At a spot where level memory has seen you die 2+ times, an input that is only safe if your next input comes in time (wave / ship / UFO / spider) gets the small delay that pushes the crash furthest away, so you have more time to react. Normal play elsewhere is not affected. Needs Level memory.",
+      "default": true
+    },
+    "ship-spam-gap": {
+      "type": "int",
+      "name": "Ship: spam gap (ticks)",
+      "description": "Ship is steered by feathering, so only taps closer together than this count as spam and go straight through. The normal spam gap (16) made almost every ship input spam, so ship was barely buffered. 4 ticks = 1 frame at 60fps.",
+      "default": 6,
+      "min": 2,
+      "max": 40
+    },
+    "ball-smart": {
+      "type": "bool",
+      "name": "Ball: smart flips",
+      "description": "Ball flips that land after only a few ticks (tight corridors) count as landings, a flip is only called safe after rolling 8 ticks on the new surface (spikes right after the landing spot), and fast flipping goes straight through (spam guard).",
+      "default": true
+    },
+    "swing-smart": {
+      "type": "bool",
+      "name": "Swing: smart flips",
+      "description": "A swing flip counts as safe if one more flip in time would have saved it (like the UFO), and fast flipping goes straight through (spam guard).",
+      "default": true
+    },
+    "training-mode": {
+      "type": "bool",
+      "name": "Training mode (hints only)",
+      "description": "The buffer still predicts every input but never delays it. When an input would have been saved, a hint shows how early you were (e.g. 'click 0.5f early'), so you learn the timing yourself.",
+      "default": false
+    },
+    "per-level-settings": {
+      "type": "bool",
+      "name": "Per-level settings",
+      "description": "The menu switches are remembered for each level and come back when you open it again. The stage (F6) and low latency are the same for every level.",
+      "default": false
+    },
+    "death-heatmap": {
+      "type": "bool",
+      "name": "Death heatmap",
+      "description": "Red marks on the progress bar where level memory saw you die; brighter = more deaths.",
+      "default": true
+    },
+    "save-ding": {
+      "type": "bool",
+      "name": "Ding on save",
+      "description": "Plays a short ding every time the buffer saves one of your clicks.",
+      "default": true
+    },
+    "hide-watermark": {
+      "type": "bool",
+      "name": "Hide watermark",
+      "description": "Hides the 'Synca | stage' label at the bottom-left of levels. It still shows while a custom Physics TPS is active, and the AUTO INPUTS ON tag is not affected.",
+      "default": false
+    },
+    "check-updates": {
+      "type": "bool",
+      "name": "Check for updates",
+      "description": "Once every few hours, when the game starts, check GitHub for a newer Synca release and offer to open the download page. Needs 'Update source' below.",
+      "default": true
+    },
+    "update-repo": {
+      "type": "string",
+      "name": "Update source (GitHub owner/repo)",
+      "description": "Where new releases are published, for example DD3V/synca. A new release (a tag like v1.13.0 with the .geode file attached) makes the update popup appear. Leave empty to turn it off. See UPDATING.md.",
+      "default": ""
+    },
+    "social-github": { "type": "string", "name": "Socials: GitHub link", "description": "Shown on the last welcome slide.", "default": "" },
+    "social-youtube": { "type": "string", "name": "Socials: YouTube link", "description": "Shown on the last welcome slide.", "default": "" },
+    "social-tiktok": { "type": "string", "name": "Socials: TikTok link", "description": "Shown on the last welcome slide.", "default": "" },
+    "social-discord": { "type": "string", "name": "Socials: Discord link", "description": "Shown on the last welcome slide.", "default": "" },
+    "performance-mode": {
+      "type": "bool",
+      "name": "Performance mode",
+      "description": "For PCs that drop frames when you click: predictions get at most 4 ms per click, no extra robustness checks, orbs are only tried with a normal click (no late-click retries), and the drift check and live path view are off. Saves can be a little less precise.",
+      "default": false
+    },
+    "auto-budget": {
+      "type": "bool",
+      "name": "Auto time budget",
+      "description": "While the game is already dropping frames (a frame took over twice as long as it should, and over 20 ms), clicks get at most 4 ms of prediction time so it doesn't get worse. Otherwise the time budget setting is used as it is.",
+      "default": true
+    },
+    "tps": {
+      "type": "int",
+      "name": "Physics TPS",
+      "description": "Physics steps per second in levels. 240 is the normal game. Higher values change the physics, so runs at anything but 240 aren't legit completions. The buffer's windows scale with it automatically. Also a slider in the in-game menu.",
+      "default": 240,
+      "min": 240,
+      "max": 1000,
+      "control": {
+        "slider": true,
+        "slider-step": 10,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 10,
+        "big-arrows": false
+      }
+    },
+    "bind-stage": {
+      "type": "keybind",
+      "name": "Key: change stage",
+      "description": "Works inside a level. Change it here or in Synca's Keybinds tab.",
+      "category": "gameplay",
+      "default": [
+        "Six"
+      ]
+    },
+    "bind-menu": {
+      "type": "keybind",
+      "name": "Key: open menu",
+      "description": "Opens the Synca menu from any game scene. Inside a level it pauses first. Rebind in Synca's Keybinds tab.",
+      "category": "gameplay",
+      "default": [
+        "Seven"
+      ]
+    },
+    "bind-export": {
+      "type": "keybind",
+      "name": "Key: copy console log",
+      "description": "Works inside a level. Change it here or in Synca's Keybinds tab.",
+      "category": "gameplay",
+      "default": [
+        "F8"
+      ]
+    },
+    "bind-console": {
+      "type": "keybind",
+      "name": "Key: show / hide console",
+      "description": "Works inside a level. Change it here or in Synca's Keybinds tab.",
+      "category": "gameplay",
+      "default": [
+        "F9"
+      ]
+    },
+    "bind-path": {
+      "type": "keybind",
+      "name": "Key: path view",
+      "description": "Works inside a level. Change it here or in Synca's Keybinds tab.",
+      "category": "gameplay",
+      "default": [
+        "F10"
+      ]
+    },
+    "bind-forget": {
+      "type": "keybind",
+      "name": "Key: forget this level",
+      "description": "Works inside a level. Change it here or in Synca's Keybinds tab.",
+      "category": "gameplay",
+      "default": [
+        "F11"
+      ]
+    },
+    "bind-toggle": {
+      "type": "keybind",
+      "name": "Key: buffer on / off",
+      "description": "Switches the buffer off, and back to the stage you were on. Works inside a level. Change it here or in Synca's Keybinds tab.",
+      "category": "gameplay",
+      "default": [
+        "F6"
+      ]
+    },
+    "bind-panic": {
+      "type": "keybind",
+      "name": "Key: panic (raw input)",
+      "description": "Buffer off right now and waiting inputs are sent. It never turns itself back on. Works inside a level. Change it here or in Synca's Keybinds tab.",
+      "category": "gameplay",
+      "default": [
+        "F7"
+      ]
+    },
+    "bind-wave-direct": {
+      "type": "keybind",
+      "name": "Key: wave direct input",
+      "description": "Toggle raw wave inputs that bypass buffering while you are in wave. This does not generate clicks or automate spam. Rebind in Synca's Keybinds tab.",
+      "category": "gameplay",
+      "default": [
+        "Five"
+      ]
+    },
+    "wave-release-window": {
+      "type": "int",
+      "name": "Wave release: lookahead (ticks)",
+      "description": "How many physics ticks ahead the held wave path must be predicted. 4 ticks = 1 frame at 60 fps.",
+      "default": 6,
+      "min": 2,
+      "max": 64,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "robot-release-window": {
+      "type": "int",
+      "name": "Robot release: lookahead (ticks)",
+      "description": "How many physics ticks ahead to look for a robot jump that needs an earlier release. 4 ticks = 1 frame at 60 fps.",
+      "default": 6,
+      "min": 2,
+      "max": 64,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "dash-release-window": {
+      "type": "int",
+      "name": "Dash release: lookahead (ticks)",
+      "description": "How many physics ticks ahead to look for a dash that needs an earlier release. 4 ticks = 1 frame at 60 fps.",
+      "default": 6,
+      "min": 2,
+      "max": 64,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "menu-intro-sound": {
+      "type": "bool",
+      "name": "Menu music",
+      "description": "The Synca menu fades the game's menu music out and its own music in (and back when you close it). Never inside a level.",
+      "default": true
+    },
+    "show-pause-button": {
+      "type": "bool",
+      "name": "Show Buffer button + stage switch in the pause menu",
+      "description": "Show or hide the extra Buffer button and the stage < > switch the next time the gameplay pause menu opens. The keybind still opens the menu.",
+      "default": true
+    },
+    "orb-ticks-yellow": {
+      "type": "int",
+      "name": "Orb timing: Yellow (ticks)",
+      "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
+      "default": 0,
+      "min": 0,
+      "max": 120,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "orb-ticks-pink": {
+      "type": "int",
+      "name": "Orb timing: Pink (ticks)",
+      "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
+      "default": 0,
+      "min": 0,
+      "max": 120,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "orb-ticks-blue": {
+      "type": "int",
+      "name": "Orb timing: Blue / gravity (ticks)",
+      "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
+      "default": 0,
+      "min": 0,
+      "max": 120,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "orb-ticks-red": {
+      "type": "int",
+      "name": "Orb timing: Red (ticks)",
+      "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
+      "default": 0,
+      "min": 0,
+      "max": 120,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "orb-ticks-black": {
+      "type": "int",
+      "name": "Orb timing: Black / drop (ticks)",
+      "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
+      "default": 0,
+      "min": 0,
+      "max": 120,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "orb-ticks-green": {
+      "type": "int",
+      "name": "Orb timing: Green (ticks)",
+      "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
+      "default": 0,
+      "min": 0,
+      "max": 120,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "orb-ticks-spider": {
+      "type": "int",
+      "name": "Orb timing: Spider (ticks)",
+      "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
+      "default": 0,
+      "min": 0,
+      "max": 120,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "orb-ticks-dash-green": {
+      "type": "int",
+      "name": "Orb timing: Green dash (ticks)",
+      "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
+      "default": 0,
+      "min": 0,
+      "max": 120,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "orb-ticks-dash-pink": {
+      "type": "int",
+      "name": "Orb timing: Pink dash (ticks)",
+      "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
+      "default": 0,
+      "min": 0,
+      "max": 120,
+      "control": {
+        "slider": true,
+        "slider-step": 1,
+        "input": true,
+        "arrows": true,
+        "arrow-step": 1,
+        "big-arrows": false
+      }
+    },
+    "orb-ticks-linked": {
+      "type": "bool",
+      "name": "Link orb tick values",
+      "description": "When enabled, changing any orb tick in Synca's Orb Timing tab updates all orb types together. The Link all button copies Yellow to every orb first.",
+      "default": false
+    }
+  },
+  "resources": {
+    "sprites": [
+      "resources/nav-*.png",
+      "resources/orb-*.png",
+      "resources/mode-*.png",
+      "resources/sparkle.png",
+      "resources/social-*.png",
+      "resources/synca-*.png"
+    ],
+    "files": [
+      "resources/synca-*.ogg"
+    ]
+  }
+}

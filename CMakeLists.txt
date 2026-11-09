@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-project(InputBufferStudio VERSION 1.5.1)
+project(InputBufferStudio VERSION 1.17.0)
 
 # main.cpp (engine), menu.cpp (menu), menu_button.cpp and popups.cpp are separate translation units.
 # The .inc / .hpp files are included by them; keep them in the generated IDE project.

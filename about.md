@@ -28,3 +28,6 @@ Basic, Smart, Visuals, Gamemodes, Orbs, Keybinds, All, **Path** (route view), **
 ## Notes
 - Open the menu with the key you set (default 7), from the pause menu button, or from the floating Synca button (it shows on every screen, drag it anywhere, it fades out after 3 seconds and comes back when you touch where it was).
 - Tick delays are per game mode; 0 turns a mode off. 4 ticks = 1 frame at 60 FPS.
+
+## Credits
+This started originally as a solo project but i still needed the help of claude, thanks to him i could have never done this...!

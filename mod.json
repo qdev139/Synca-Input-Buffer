@@ -3,7 +3,7 @@
   "gd": {
     "win": "2.2081"
     },
-  "version": "v1.0.0",
+  "version": "v1.17.0",
   "id": "dd3v.synca",
   "name": "Synca",
   "developer": "DD3V",
@@ -178,7 +178,7 @@
       "description": "How early a press may be and still be moved onto the orb. 16 ticks = 4 frames at 60fps.",
       "default": 16,
       "min": 1,
-      "max": 64
+      "max": 120
     },
     "wave-v46": {
       "type": "bool",
@@ -390,12 +390,6 @@
       "description": "Hides the 'Synca | stage' label at the bottom-left of levels. It still shows while a custom Physics TPS is active, and the AUTO INPUTS ON tag is not affected.",
       "default": false
     },
-    "menu-button": {
-      "type": "bool",
-      "name": "Floating Synca button",
-      "description": "A small Synca button that shows on every screen (menus, in a level, the pause menu) and opens the menu. Drag it anywhere. After 3 seconds it fades out completely; touch where it was to bring it back. While a level is running, a faded button lets your touches through to the game.",
-      "default": true
-    },
     "check-updates": {
       "type": "bool",
       "name": "Check for updates",
@@ -405,9 +399,13 @@
     "update-repo": {
       "type": "string",
       "name": "Update source (GitHub owner/repo)",
-      "description": "Where new releases are published, for example DD3V/synca. Leave empty to turn the update popup off.",
+      "description": "Where new releases are published, for example DD3V/synca. A new release (a tag like v1.13.0 with the .geode file attached) makes the update popup appear. Leave empty to turn it off. See UPDATING.md.",
       "default": ""
     },
+    "social-github": { "type": "string", "name": "Socials: GitHub link", "description": "Shown on the last welcome slide.", "default": "" },
+    "social-youtube": { "type": "string", "name": "Socials: YouTube link", "description": "Shown on the last welcome slide.", "default": "" },
+    "social-tiktok": { "type": "string", "name": "Socials: TikTok link", "description": "Shown on the last welcome slide.", "default": "" },
+    "social-discord": { "type": "string", "name": "Socials: Discord link", "description": "Shown on the last welcome slide.", "default": "" },
     "performance-mode": {
       "type": "bool",
       "name": "Performance mode",
@@ -439,7 +437,7 @@
     "bind-stage": {
       "type": "keybind",
       "name": "Key: change stage",
-      "description": "Works inside a level. Change it here, in Synca's Keybinds tab, or in Synca's Keybinds tab.",
+      "description": "Works inside a level. Change it here or in Synca's Keybinds tab.",
       "category": "gameplay",
       "default": [
         "Six"
@@ -457,7 +455,7 @@
     "bind-export": {
       "type": "keybind",
       "name": "Key: copy console log",
-      "description": "Works inside a level. Change it here, in Synca's Keybinds tab, or in Synca's Keybinds tab.",
+      "description": "Works inside a level. Change it here or in Synca's Keybinds tab.",
       "category": "gameplay",
       "default": [
         "F8"
@@ -466,7 +464,7 @@
     "bind-console": {
       "type": "keybind",
       "name": "Key: show / hide console",
-      "description": "Works inside a level. Change it here, in Synca's Keybinds tab, or in Synca's Keybinds tab.",
+      "description": "Works inside a level. Change it here or in Synca's Keybinds tab.",
       "category": "gameplay",
       "default": [
         "F9"
@@ -475,7 +473,7 @@
     "bind-path": {
       "type": "keybind",
       "name": "Key: path view",
-      "description": "Works inside a level. Change it here, in Synca's Keybinds tab, or in Synca's Keybinds tab.",
+      "description": "Works inside a level. Change it here or in Synca's Keybinds tab.",
       "category": "gameplay",
       "default": [
         "F10"
@@ -484,7 +482,7 @@
     "bind-forget": {
       "type": "keybind",
       "name": "Key: forget this level",
-      "description": "Works inside a level. Change it here, in Synca's Keybinds tab, or in Synca's Keybinds tab.",
+      "description": "Works inside a level. Change it here or in Synca's Keybinds tab.",
       "category": "gameplay",
       "default": [
         "F11"
@@ -493,7 +491,7 @@
     "bind-toggle": {
       "type": "keybind",
       "name": "Key: buffer on / off",
-      "description": "Switches the buffer off, and back to the stage you were on. Works inside a level. Change it here, in Synca's Keybinds tab, or in Synca's Keybinds tab.",
+      "description": "Switches the buffer off, and back to the stage you were on. Works inside a level. Change it here or in Synca's Keybinds tab.",
       "category": "gameplay",
       "default": [
         "F6"
@@ -502,7 +500,7 @@
     "bind-panic": {
       "type": "keybind",
       "name": "Key: panic (raw input)",
-      "description": "Buffer off right now and waiting inputs are sent. It never turns itself back on. Works inside a level. Change it here, in Synca's Keybinds tab, or in Synca's Keybinds tab.",
+      "description": "Buffer off right now and waiting inputs are sent. It never turns itself back on. Works inside a level. Change it here or in Synca's Keybinds tab.",
       "category": "gameplay",
       "default": [
         "F7"
@@ -565,10 +563,16 @@
         "big-arrows": false
       }
     },
+    "menu-intro-sound": {
+      "type": "bool",
+      "name": "Menu music",
+      "description": "The Synca menu fades the game's menu music out and its own music in (and back when you close it). Never inside a level.",
+      "default": true
+    },
     "show-pause-button": {
       "type": "bool",
-      "name": "Show Buffer button in the pause menu",
-      "description": "Show or hide the extra Buffer button the next time the gameplay pause menu opens. The keybind still opens the menu.",
+      "name": "Show Buffer button + stage switch in the pause menu",
+      "description": "Show or hide the extra Buffer button and the stage < > switch the next time the gameplay pause menu opens. The keybind still opens the menu.",
       "default": true
     },
     "orb-ticks-yellow": {
@@ -577,7 +581,7 @@
       "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
       "default": 0,
       "min": 0,
-      "max": 32,
+      "max": 120,
       "control": {
         "slider": true,
         "slider-step": 1,
@@ -593,7 +597,7 @@
       "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
       "default": 0,
       "min": 0,
-      "max": 32,
+      "max": 120,
       "control": {
         "slider": true,
         "slider-step": 1,
@@ -609,7 +613,7 @@
       "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
       "default": 0,
       "min": 0,
-      "max": 32,
+      "max": 120,
       "control": {
         "slider": true,
         "slider-step": 1,
@@ -625,7 +629,7 @@
       "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
       "default": 0,
       "min": 0,
-      "max": 32,
+      "max": 120,
       "control": {
         "slider": true,
         "slider-step": 1,
@@ -641,7 +645,7 @@
       "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
       "default": 0,
       "min": 0,
-      "max": 32,
+      "max": 120,
       "control": {
         "slider": true,
         "slider-step": 1,
@@ -657,7 +661,7 @@
       "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
       "default": 0,
       "min": 0,
-      "max": 32,
+      "max": 120,
       "control": {
         "slider": true,
         "slider-step": 1,
@@ -673,7 +677,7 @@
       "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
       "default": 0,
       "min": 0,
-      "max": 32,
+      "max": 120,
       "control": {
         "slider": true,
         "slider-step": 1,
@@ -689,7 +693,7 @@
       "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
       "default": 0,
       "min": 0,
-      "max": 32,
+      "max": 120,
       "control": {
         "slider": true,
         "slider-step": 1,
@@ -705,7 +709,7 @@
       "description": "Extra ticks before the prediction clicks this ring. 0 uses the automatic timing search; 4 ticks = 1 frame at 60 fps.",
       "default": 0,
       "min": 0,
-      "max": 32,
+      "max": 120,
       "control": {
         "slider": true,
         "slider-step": 1,
@@ -724,7 +728,15 @@
   },
   "resources": {
     "sprites": [
-      "resources/*.png"
+      "resources/nav-*.png",
+      "resources/orb-*.png",
+      "resources/mode-*.png",
+      "resources/sparkle.png",
+      "resources/social-*.png",
+      "resources/synca-*.png"
+    ],
+    "files": [
+      "resources/synca-*.ogg"
     ]
   }
 }
